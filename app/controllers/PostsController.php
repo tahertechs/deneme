@@ -381,14 +381,13 @@ class PostsController extends BaseController{
 			    }
 			     
 			    foreach($files as $file){
-			        $zip->addFile($file);
+			    	$zip->addFile($file,pathinfo($file,PATHINFO_BASENAME));
 			    }
 			     
 			    $zip->close();
 
-			    //dd($zip_name);
-
 			    if(file_exists($zip_name)){
+
 			        // force to download the zip
 			        header("Pragma: public");
 			        header("Expires: 0");
@@ -402,9 +401,9 @@ class PostsController extends BaseController{
 
 
 			        //Update download count
-					$post->dcount = ($post->dcount) + 1 ;
+					$post->dcount = ($post->dcount)+1;
+
 					$post->save();
-					return Redirect::refresh();
 
 			    }
 			    else{
